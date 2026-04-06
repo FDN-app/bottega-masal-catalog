@@ -16,9 +16,13 @@ export default function ProductCard({ product }: ProductCardProps) {
       to={`/producto/${product.id}`}
       className="group block rounded-lg overflow-hidden bg-card shadow-sm border border-border transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
     >
-      {/* Image placeholder */}
-      <div className="aspect-[4/3] bg-wood-light flex items-center justify-center">
-        <ImageIcon size={48} className="text-primary/30" />
+      {/* Image */}
+      <div className="aspect-[4/3] bg-wood-light flex items-center justify-center overflow-hidden">
+        {product.images && product.images.length > 0 ? (
+          <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+        ) : (
+          <ImageIcon size={48} className="text-primary/30" />
+        )}
       </div>
 
       <div className="p-4 space-y-2">

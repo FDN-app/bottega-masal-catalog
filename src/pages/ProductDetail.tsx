@@ -70,18 +70,26 @@ export default function ProductDetail() {
           {/* Gallery */}
           <div className="space-y-3">
             <div className="aspect-[4/3] rounded-lg bg-wood-light flex items-center justify-center overflow-hidden">
-              <ImageIcon size={64} className="text-primary/30" />
+              {images[activeImage] ? (
+                <img src={images[activeImage]!} alt={product.name} className="w-full h-full object-cover" />
+              ) : (
+                <ImageIcon size={64} className="text-primary/30" />
+              )}
             </div>
             <div className="grid grid-cols-4 gap-2">
-              {images.slice(0, 4).map((_, i) => (
+              {images.slice(0, 4).map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveImage(i)}
-                  className={`aspect-square rounded-md bg-wood-light flex items-center justify-center border-2 transition-colors ${
+                  className={`aspect-square rounded-md bg-wood-light flex items-center justify-center overflow-hidden border-2 transition-colors ${
                     activeImage === i ? "border-accent" : "border-transparent"
                   }`}
                 >
-                  <ImageIcon size={20} className="text-primary/20" />
+                  {img ? (
+                    <img src={img} alt={`mini-${i}`} className="w-full h-full object-cover" />
+                  ) : (
+                    <ImageIcon size={20} className="text-primary/20" />
+                  )}
                 </button>
               ))}
             </div>
