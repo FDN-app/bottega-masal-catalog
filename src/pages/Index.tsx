@@ -6,6 +6,7 @@ import CategoryFilter from "@/components/CategoryFilter";
 import { products } from "@/data/mock";
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
+import heroImage from "@/assets/hero-wood.jpg";
 
 export default function Index() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
