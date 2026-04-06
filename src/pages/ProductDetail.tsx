@@ -61,7 +61,7 @@ export default function ProductDetail() {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-1 container py-6">
+      <main className="flex-1 container py-6 pb-28 lg:pb-6">
         <Button asChild variant="ghost" size="sm" className="mb-4">
           <Link to="/"><ArrowLeft size={16} /> Volver al catálogo</Link>
         </Button>
@@ -188,7 +188,7 @@ export default function ProductDetail() {
       </main>
 
       {/* Sticky WhatsApp button mobile */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 p-4 bg-card/95 backdrop-blur border-t border-border">
+      <div className="lg:hidden fixed bottom-0 inset-x-0 p-4 bg-card/95 backdrop-blur border-t border-border z-50">
         <Button asChild variant="cta" size="lg" className="w-full rounded-full text-base">
           <a
             href={getWhatsAppLink(product.name, quantity)}

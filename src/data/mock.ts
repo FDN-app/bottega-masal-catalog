@@ -25,13 +25,11 @@ export interface FAQ {
   order: number;
 }
 
-
-export const WHATSAPP_NUMBER = "5491100000000";
+export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "5491100000000";
 
 export function formatPrice(price: number): string {
   return "$" + price.toLocaleString("es-AR");
 }
-
 
 export function getWhatsAppLink(productName: string, quantity: number): string {
   const text = encodeURIComponent(

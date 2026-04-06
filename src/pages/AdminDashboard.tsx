@@ -104,7 +104,7 @@ function ProductsTab() {
           <div className="p-8 text-center text-muted-foreground animate-pulse">Cargando productos...</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[600px]">
               <thead>
                 <tr className="border-b border-border bg-muted/50">
                   <th className="text-left p-3 font-medium text-muted-foreground">Foto</th>
