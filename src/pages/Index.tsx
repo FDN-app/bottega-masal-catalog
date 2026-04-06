@@ -23,9 +23,9 @@ export default function Index() {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      {/* Hero */}
-      <section className="relative bg-wood-light py-20 md:py-32">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent" />
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        <img src={heroImage} alt="" className="absolute inset-0 w-full h-full object-cover" width={1920} height={800} />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-background/30" />
         <div className="container relative text-center space-y-5">
           <h1 className="font-display text-4xl md:text-6xl font-bold text-primary">
             Bottega MaSal
