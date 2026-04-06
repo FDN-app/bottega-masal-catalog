@@ -2,15 +2,31 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getProduct, getCategory, formatPrice, getWhatsAppLink } from "@/data/mock";
+import { formatPrice, getWhatsAppLink } from "@/data/mock";
+import { useProduct } from "@/hooks/useProducts";
+import { useCategories } from "@/hooks/useCategories";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, ArrowLeft, ImageIcon, Minus, Plus } from "lucide-react";
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
-  const product = getProduct(id ?? "");
+  const { data: product, isLoading: loadingProduct } = useProduct(id);
+  const { data: categories } = useCategories();
+  
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
+
+  if (loadingProduct) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-lg text-muted-foreground animate-pulse">Cargando producto...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -29,16 +45,17 @@ export default function ProductDetail() {
     );
   }
 
-  const category = getCategory(product.categoryId);
+  const category = categories?.find((c) => c.id === product.categoryId);
 
   function getUnitPrice() {
-    if (quantity >= 10 && product.price10) return product.price10;
-    if (quantity >= 5 && product.price5) return product.price5;
-    return product.price;
+    if (quantity >= 10 && product?.price10) return product.price10;
+    if (quantity >= 5 && product?.price5) return product.price5;
+    return product?.price ?? 0;
   }
 
   const unitPrice = getUnitPrice();
-  const images = product.images.length > 0 ? product.images : [null, null, null, null];
+  const images = product.images?.length > 0 ? product.images : [null, null, null, null];
+
 
   return (
     <div className="min-h-screen flex flex-col">

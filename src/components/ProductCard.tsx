@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { type Product, formatPrice, getCategory } from "@/data/mock";
+import { type Product, formatPrice } from "@/data/mock";
+import { useCategories } from "@/hooks/useCategories";
 import { ImageIcon } from "lucide-react";
 
 interface ProductCardProps {
@@ -7,7 +8,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const category = getCategory(product.categoryId);
+  const { data: categories } = useCategories();
+  const category = categories?.find(c => c.id === product.categoryId);
 
   return (
     <Link

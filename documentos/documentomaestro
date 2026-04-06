@@ -1,0 +1,288 @@
+# BOTTEGA MASAL — DOCUMENTO MAESTRO v1.1
+### "Madera con historia"
+**Documento VIVO — Se actualiza con cada iteración**
+**Versión 1.1 — Abril 2026 (actualizado post-Lovable)**
+
+---
+
+## 0. ESTADO ACTUAL DEL PROYECTO (Auditoría post-Lovable)
+
+### ✅ Ya construido (prototipo Lovable)
+- Catálogo público con Hero, grid de productos y ProductCard
+- Detalle de producto con precios escalonados y selector de cantidad
+- Botón WhatsApp funcional con mensaje pre-armado (getWhatsAppLink)
+- Páginas estáticas: Nosotros y FAQ
+- Panel Admin con tabs para Productos, Categorías y FAQ
+- Routing completo con react-router-dom
+- UI Components: Shadcn UI + Radix UI
+- State management: React Query (@tanstack/react-query) instalado
+- Filtro por categorías funcionando con datos mock
+
+### 🚧 Pendiente (próximos pasos)
+- Instalar y configurar @supabase/supabase-js
+- Crear archivo de conexión a Supabase (/src/lib/supabase.ts)
+- Configurar variables de entorno (.env)
+- Crear tablas en Supabase: products, categories, faqs
+- Configurar RLS en todas las tablas
+- Crear bucket "product-images" en Supabase Storage
+- Reemplazar datos mock (src/data/mock.ts) por queries reales
+- Conectar auth real (reemplazar useState falso por Supabase Auth)
+- CRUD funcional en panel admin (botones no hacen nada todavía)
+- Reemplazar placeholders de imagen por <img> conectados a Storage
+
+### Dependencias clave ya instaladas (package.json)
+- React 18 + TypeScript + Vite 5
+- Tailwind CSS 3 + tailwindcss-animate
+- Shadcn UI (Radix UI completo)
+- React Router DOM 6
+- React Query (TanStack) 5
+- React Hook Form + Zod (validación)
+- Lucide React (iconos)
+- Recharts (gráficos, para estadísticas futuras)
+- Sonner (notificaciones toast)
+
+---
+
+## 1. VISIÓN DEL PROYECTO
+
+### 1.1 ¿Qué es Bottega MaSal?
+Catálogo online de productos artesanales de madera, hecho a mano por carpinteros con tradición italiana. La plataforma permite a los clientes explorar productos, ver precios por menor y mayor, y contactarse directamente con el vendedor vía WhatsApp para cerrar la compra.
+
+### 1.2 Problema que resuelve
+- Los fabricantes no tienen presencia digital ni quieren manejar ventas online.
+- El vendedor necesita un canal profesional para mostrar productos sin depender solo del boca en boca.
+- Los clientes potenciales no tienen forma fácil de ver el catálogo completo, comparar productos ni conocer precios mayoristas.
+
+### 1.3 Propuesta de valor
+- **Para el cliente:** Catálogo visual profesional con precios transparentes (menor y mayor), respuestas automáticas a consultas frecuentes, y contacto directo.
+- **Para el vendedor:** Canal de venta automatizado que trabaja 24/7, sin intermediarios, con marca propia.
+- **Para los fabricantes:** Ventas que llegan sin esfuerzo de su parte.
+
+---
+
+## 2. USUARIOS
+
+### 2.1 Roles del sistema
+
+| Rol | Descripción | Acciones |
+|-----|-------------|----------|
+| **Administrador (vendedor)** | Dueño del catálogo. Sube productos, edita precios, gestiona contenido. | CRUD de productos, editar precios, ver estadísticas básicas, gestionar FAQ. |
+| **Cliente** | Persona que busca productos de madera artesanales. Puede ser consumidor final o revendedor. | Navegar catálogo, filtrar por categoría, ver precios, contactar por WhatsApp. |
+
+### 2.2 Cliente objetivo
+- **Primario:** Personas de zona oeste / GBA que buscan decoración, regalos artesanales, o productos de madera para el hogar.
+- **Secundario:** Revendedores o negocios que compran por mayor (bazares, deco shops, regalerías).
+- **Cómo llegan:** Link compartido por Instagram, WhatsApp, boca en boca, o búsqueda en Google.
+
+---
+
+## 3. FUNCIONALIDADES DEL MVP
+
+### 3.1 Público (sin login)
+
+| # | Funcionalidad | Detalle | Prioridad |
+|---|---------------|---------|-----------|
+| 1 | Catálogo de productos | Grid con foto, nombre, precio unitario. Click para ver detalle. | ALTA - Core del MVP |
+| 2 | Detalle de producto | Fotos, descripción, materiales, dimensiones, precio unitario y mayorista. | ALTA - Core del MVP |
+| 3 | Filtro por categoría | Lámparas · Juegos · Decoración · Playeras · Otro | ALTA |
+| 4 | Precios escalonados | Mostrar: 1 ud = $X · 5+ = $Y · 10+ = $Z (configurable por producto) | ALTA |
+| 5 | Botón WhatsApp | Genera mensaje pre-armado: "Hola, me interesa [producto] x [cantidad]" | ALTA - Core del MVP |
+| 6 | FAQ automático | Sección con preguntas frecuentes: envíos, materiales, tiempos, cuidados. | MEDIA |
+| 7 | Responsive / Mobile First | Diseño pensado primero para celular (90% del tráfico vendrá de Instagram/WA). | ALTA - Obligatorio |
+| 8 | SEO básico | Meta tags, títulos, Open Graph para que se vea lindo al compartir en redes. | MEDIA |
+
+### 3.2 Panel Admin (con login)
+
+| # | Funcionalidad | Detalle | Prioridad |
+|---|---------------|---------|-----------|
+| 1 | Login admin | Solo el vendedor. Un único usuario admin. Email + password. | ALTA |
+| 2 | CRUD productos | Crear, editar, eliminar productos. Subir hasta 4 fotos por producto. | ALTA - Core |
+| 3 | Gestión de precios | Definir precio unitario + escalas de mayorista por producto. | ALTA |
+| 4 | Gestión de categorías | Crear y editar categorías del catálogo. | MEDIA |
+| 5 | Editar FAQ | Agregar/editar preguntas frecuentes sin tocar código. | MEDIA |
+| 6 | Estadísticas básicas | Cuántas visitas, qué productos ven más, cuántos clicks en WhatsApp. | BAJA - Post MVP |
+
+---
+
+## 4. STACK TÉCNICO
+
+| Capa | Tecnología | Uso |
+|------|-----------|-----|
+| Frontend | React 18 + TypeScript + Tailwind CSS 3 | Interfaz del catálogo y panel admin |
+| Componentes UI | Shadcn UI (Radix UI) | Botones, modales, tabs, acordeones, etc. |
+| State / Data | React Query (TanStack) 5 | Fetching y cache de datos |
+| Formularios | React Hook Form + Zod | Validación de formularios admin |
+| Backend / BaaS | Supabase (pendiente de conectar) | Base de datos PostgreSQL, Auth, Storage (fotos) |
+| Build tool | Vite 5 | Bundler y dev server |
+| Hosting | Vercel | Deploy continuo desde GitHub |
+| Prototipado | Lovable.dev (completado) | Prototipo visual inicial |
+| IDE | Antigravity | Desarrollo real post-prototipo |
+| Control de versiones | GitHub | Repositorio + versionado |
+
+---
+
+## 5. ARQUITECTURA DE DATOS (SUPABASE)
+
+### 5.1 Tabla: products
+
+| Campo | Tipo | Descripción | Notas |
+|-------|------|-------------|-------|
+| id | uuid (PK) | Identificador único | Auto-generado |
+| name | text | Nombre del producto | Requerido |
+| description | text | Descripción larga | Opcional |
+| category_id | uuid (FK) | Referencia a categories | Requerido |
+| price_unit | numeric | Precio por unidad | Requerido |
+| price_wholesale_5 | numeric | Precio por 5+ unidades | Opcional |
+| price_wholesale_10 | numeric | Precio por 10+ unidades | Opcional |
+| materials | text | Materiales utilizados | Opcional |
+| dimensions | text | Medidas del producto | Opcional |
+| images | text[] | URLs de fotos en Supabase Storage | Máx 4 fotos |
+| is_active | boolean | Visible en el catálogo | Default: true |
+| created_at | timestamp | Fecha de creación | Auto |
+
+### 5.2 Tabla: categories
+
+| Campo | Tipo | Descripción | Notas |
+|-------|------|-------------|-------|
+| id | uuid (PK) | Identificador único | Auto-generado |
+| name | text | Nombre de la categoría | Ej: Lámparas, Juegos, Decoración |
+| slug | text | URL amigable | Ej: lamparas, juegos |
+| order | integer | Orden de aparición | Para ordenar el menú |
+
+### 5.3 Tabla: faqs
+
+| Campo | Tipo | Descripción | Notas |
+|-------|------|-------------|-------|
+| id | uuid (PK) | Identificador único | Auto-generado |
+| question | text | Pregunta frecuente | Requerido |
+| answer | text | Respuesta | Requerido |
+| order | integer | Orden de aparición | Para ordenar la lista |
+
+---
+
+## 6. FLUJOS DE USUARIO
+
+### 6.1 Cliente: Descubrir y contactar
+1. Cliente recibe link por Instagram/WhatsApp o busca en Google.
+2. Entra a la web → ve el catálogo completo (grid de productos).
+3. Filtra por categoría (Lámparas, Juegos, etc.).
+4. Click en un producto → ve detalle con fotos, descripción, precios (unitario y mayorista).
+5. Elige cantidad → ve precio según escala.
+6. Click en "Consultar por WhatsApp" → abre WA con mensaje pre-armado: "Hola, me interesa [Lámpara Norden] x [3 unidades]. ¿Cuál es la disponibilidad?"
+7. También puede ir a FAQ para resolver dudas sin contactar.
+
+### 6.2 Admin: Gestión de productos
+1. Entrás a /admin → login con email y password.
+2. Ves dashboard con lista de productos.
+3. Click "Nuevo producto" → formulario: nombre, descripción, categoría, precios (unitario + escalas), materiales, dimensiones.
+4. Subís hasta 4 fotos → se guardan en Supabase Storage.
+5. Guardás → producto aparece en el catálogo público.
+6. Podés desactivar un producto (is_active: false) sin borrarlo.
+
+---
+
+## 7. DIRECTRICES DE DISEÑO UX/UI
+
+### 7.1 Principios
+- **Mobile First:** El 90% del tráfico viene de celular (Instagram/WhatsApp). Diseñar primero para pantalla chica.
+- **Fotos protagonistas:** Los productos se venden por la vista. Las fotos deben ser grandes y de buena calidad.
+- **Acción clara:** Cada página tiene UN objetivo principal: ver productos → ver detalle → contactar.
+- **Simplicidad:** Nada de registro, nada de carrito, nada de checkout. Ver y contactar.
+
+### 7.2 Paleta de colores
+
+| Uso | Color | Hex | Referencia |
+|-----|-------|-----|-----------|
+| Primario | Marrón cálido / Madera | #8B6914 | Transmite madera, artesanal |
+| Secundario | Crema / Natural | #FAF0E6 | Fondo cálido |
+| Acento | Naranja terracota | #C2612C | Botones CTA |
+| Texto | Gris oscuro | #2C2C2C | Legibilidad |
+
+### 7.3 Tipografía
+- **Títulos:** Playfair Display o Lora (serif, elegante, artesanal).
+- **Cuerpo:** Inter o DM Sans (sans-serif, moderna, legible).
+
+### 7.4 Páginas del MVP
+1. **Home / Catálogo:** Hero con slogan + grid de productos filtrable.
+2. **Detalle de producto:** Galería de fotos + info + precios escalonados + botón WhatsApp.
+3. **FAQ:** Acordeón con preguntas frecuentes.
+4. **Sobre nosotros:** Historia de la familia, tradición (sin nombres reales de fabricantes).
+5. **/admin:** Panel de gestión (protegido por login).
+
+---
+
+## 8. SUPABASE Y AUTENTICACIÓN
+
+### 8.1 Auth
+- Un solo usuario admin (el vendedor). No hay registro público.
+- Login con email + password vía Supabase Auth.
+- La parte pública del catálogo NO requiere autenticación.
+
+### 8.2 Row Level Security (RLS)
+
+| Tabla | SELECT (leer) | INSERT/UPDATE/DELETE |
+|-------|--------------|---------------------|
+| products | Público (solo is_active = true) | Solo auth.uid() = admin_id |
+| categories | Público | Solo auth.uid() = admin_id |
+| faqs | Público | Solo auth.uid() = admin_id |
+
+### 8.3 Storage
+- Bucket: "product-images" (público para lectura, solo admin para escritura).
+- Formato: webp o jpg optimizados. Máximo 4 fotos por producto.
+- Naming: [product_id]/[1-4].webp
+
+---
+
+## 9. DEPLOY Y VARIABLES DE ENTORNO
+
+### 9.1 Variables de entorno (.env)
+**NUNCA subir el archivo .env a GitHub. Siempre incluirlo en .gitignore.**
+
+| Variable | Descripción |
+|----------|-------------|
+| VITE_SUPABASE_URL | URL del proyecto Supabase |
+| VITE_SUPABASE_ANON_KEY | Clave pública de Supabase |
+| VITE_WHATSAPP_NUMBER | Tu número de WA con código de país |
+
+### 9.2 Proceso de deploy
+1. git add . → git commit -m "mensaje" → git push
+2. Verificar que .env está en .gitignore.
+3. Vincular repositorio en Vercel.
+4. Copiar variables de entorno manualmente en Vercel.
+5. Deploy automático con cada push a main.
+
+---
+
+## 10. ROADMAP
+
+### Fase 1: MVP (entrega del curso)
+- Catálogo público funcional con filtros y precios escalonados.
+- Panel admin con CRUD de productos.
+- Botón WhatsApp funcional.
+- FAQ editable.
+- Deploy en Vercel.
+
+### Fase 2: Post-MVP (crecimiento)
+- Estadísticas de visitas y clicks.
+- Chat en vivo o chatbot para consultas.
+- SEO avanzado y blog de contenido.
+- Integración con Instagram Shopping.
+
+### Fase 3: E-commerce (si el catálogo funciona)
+- Carrito de compras.
+- Integración MercadoPago.
+- Sistema de envíos automatizado.
+- Notificaciones por email.
+
+---
+
+## 11. ERRORES A EVITAR
+
+- Prompt corto a Lovable = créditos desperdiciados. Siempre ser ultra-específico.
+- El Documento Maestro es VIVO. Actualizarlo con cada cambio.
+- No usar un solo agente para todo en Antigravity. Crear agentes específicos.
+- NUNCA subir .env a GitHub.
+- npm install en CADA proyecto nuevo.
+- No agregar features que no estén en el plan. Scope creep mata proyectos.
+- No saltar el prototipo en Lovable. Siempre prototipar antes de codear.
+- Mobile First siempre. Si no funciona en celular, no sirve.

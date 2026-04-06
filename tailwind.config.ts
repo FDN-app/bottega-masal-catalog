@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Playfair Display", "serif"],
+        display: ["Outfit", "sans-serif"],
         body: ["Inter", "sans-serif"],
       },
       colors: {
@@ -50,10 +50,6 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        wood: {
-          DEFAULT: "hsl(var(--wood))",
-          light: "hsl(var(--wood-light))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

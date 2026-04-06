@@ -1,4 +1,4 @@
-import { categories } from "@/data/mock";
+import { useCategories } from "@/hooks/useCategories";
 import { Button } from "@/components/ui/button";
 
 interface CategoryFilterProps {
@@ -7,6 +7,10 @@ interface CategoryFilterProps {
 }
 
 export default function CategoryFilter({ active, onChange }: CategoryFilterProps) {
+  const { data: categories = [], isLoading } = useCategories();
+
+  if (isLoading) return <div className="text-sm text-muted-foreground animate-pulse">Cargando categorías...</div>;
+
   return (
     <div className="flex flex-wrap gap-2">
       <Button

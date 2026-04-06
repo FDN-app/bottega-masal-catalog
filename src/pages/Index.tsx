@@ -3,17 +3,18 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
-import { products } from "@/data/mock";
+import { useProducts } from "@/hooks/useProducts";
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import heroImage from "@/assets/hero-wood.jpg";
 
 export default function Index() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const { data: products = [], isLoading } = useProducts({ publicOnly: true });
 
   const filtered = activeCategory
-    ? products.filter((p) => p.categoryId === activeCategory && p.active)
-    : products.filter((p) => p.active);
+    ? products.filter((p) => p.categoryId === activeCategory)
+    : products;
 
   const scrollToCatalog = () => {
     document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" });
